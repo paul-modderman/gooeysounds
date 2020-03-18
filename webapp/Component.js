@@ -27,6 +27,9 @@ sap.ui.define([
 
 				// set the device model
 				this.setModel(models.createDeviceModel(), "device");
+				
+				// set a simple model to hold the sound setting
+				this.setModel(new sap.ui.model.json.JSONModel({ selectedSoundType: "SAP" }), "soundSetting");
 
 				// create the views based on the url/hash
 				this.getRouter().initialize();

@@ -1,45 +1,26 @@
-<mvc:View
-	controllerName="sapui5.demo.worklist.controller.Worklist"
-	xmlns="sap.m"
-	xmlns:mvc="sap.ui.core.mvc"
+<mvc:View controllerName="sapui5.demo.worklist.controller.Worklist" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc"
 	xmlns:semantic="sap.m.semantic">
-
-	<semantic:FullscreenPage
-		id="page"
-		navButtonPress="onNavBack"
-		showNavButton="true"
-		title="{i18n>worklistViewTitle}">
+	<semantic:FullscreenPage id="page" navButtonPress="onNavBack" showNavButton="true" title="{i18n>worklistViewTitle}">
 		<semantic:content>
-			<Table
-				id="table"
-				width="auto"
-				class="sapUiResponsiveMargin"
-				items="{
-					path: '/Products',
-					sorter: {
-						path: 'ProductName',
-						descending: false
-					}
-				}"
-				noDataText="{worklistView>/tableNoDataText}"
-				busyIndicatorDelay="{worklistView>/tableBusyDelay}"
-				growing="true"
-				growingScrollToLoad="true"
-				updateFinished="onUpdateFinished">
-
+			<HBox alignItems="Center">
+				<Label text="Soundscape" labelFor="soundscapeSelect" class="sapUiTinyMarginEnd sapUiTinyMarginBegin"/>
+				<Select id="soundscapeSelect" selectedKey="{soundSetting>/selectedSoundType}">
+					<core:Item key="SAP" text="SAP GUI"/>
+					<core:Item key="NONE" text="Sounds Of Silence"/>
+					<core:Item key="MINDSET" text="Mindset Theme"/>
+					<core:Item key="KIDS" text="Fiori For Kids"/>
+				</Select>
+			</HBox>
+			<Table id="table" width="auto" class="sapUiResponsiveMargin"
+				items="{ path: '/Products', sorter: { path: 'ProductName', descending: false } }" noDataText="{worklistView>/tableNoDataText}"
+				busyIndicatorDelay="{worklistView>/tableBusyDelay}" growing="true" growingScrollToLoad="true" updateFinished="onUpdateFinished">
 				<headerToolbar>
 					<Toolbar>
 						<Title id="tableHeader" text="{worklistView>/worklistTableTitle}"/>
-						<ToolbarSpacer />
-						<SearchField
-							id="searchField"
-							tooltip="{i18n>worklistSearchTooltip}"
-							search="onSearch"
-							width="auto">
-						</SearchField>
+						<ToolbarSpacer/>
+						<SearchField id="searchField" tooltip="{i18n>worklistSearchTooltip}" search="onSearch" width="auto"></SearchField>
 					</Toolbar>
 				</headerToolbar>
-
 				<columns>
 					<Column id="nameColumn">
 						<Text text="{i18n>tableNameColumnTitle}" id="nameColumnTitle"/>
@@ -48,31 +29,18 @@
 						<Text text="{i18n>tableUnitNumberColumnTitle}" id="unitNumberColumnTitle"/>
 					</Column>
 				</columns>
-
 				<items>
-					<ColumnListItem
-						type="Navigation"
-						press="onPress">
+					<ColumnListItem type="Navigation" press="onPress">
 						<cells>
-							<ObjectIdentifier
-								title="{ProductName}"/>
-							<ObjectNumber
-								number="{
-									path: 'UnitsInStock',
-									formatter: '.formatter.numberUnit'
-								}"
-								unit="{QuantityPerUnit}"/>
+							<ObjectIdentifier title="{ProductName}"/>
+							<ObjectNumber number="{ path: 'UnitsInStock', formatter: '.formatter.numberUnit' }" unit="{QuantityPerUnit}"/>
 						</cells>
 					</ColumnListItem>
 				</items>
 			</Table>
 		</semantic:content>
-
-		<semantic:sendEmailAction>
-			<semantic:SendEmailAction id="shareEmail" press="onShareEmailPress"/>
-		</semantic:sendEmailAction>
-
-
+		<semantic:customFooterContent>
+			<Button text="OH NO!" type="Reject" press="showErrorMessage"/>
+		</semantic:customFooterContent>
 	</semantic:FullscreenPage>
-
 </mvc:View>

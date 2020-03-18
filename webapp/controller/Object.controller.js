@@ -56,6 +56,8 @@ sap.ui.define([
 		 * @public
 		 */
 		onNavBack: function () {
+			var audio = new Audio(this._getFullSoundName("nav_back")); // new Audio("soundEffects/nav_back.wav");
+			audio.play();
 			var sPreviousHash = History.getInstance().getPreviousHash();
 
 			if (sPreviousHash !== undefined) {
@@ -63,6 +65,23 @@ sap.ui.define([
 			} else {
 				this.getRouter().navTo("worklist", {}, true);
 			}
+		},
+		
+		onDeliciousSelect: function(oEvent){
+			var audio = new Audio(this._getFullSoundName("check_select")); // new Audio("soundEffects/check_select.wav");
+			audio.play();
+		},
+		
+		onPanelExpand: function(oEvent){
+			var expanding = oEvent.getParameter("expand");
+			var audioType = "";
+			if(expanding){
+				audioType = this._getFullSoundName("tree_open");
+			} else {
+				audioType = this._getFullSoundName("tree_close");
+			}
+			var audio = new Audio(audioType);
+			audio.play();
 		},
 
 		/* =========================================================== */
@@ -76,8 +95,6 @@ sap.ui.define([
 		 * @private
 		 */
 		_onObjectMatched: function (oEvent) {
-			var audio = new Audio("soundEffects/check_select.wav");
-			audio.play();
 			var sObjectId = oEvent.getParameter("arguments").objectId;
 			this.getModel().metadataLoaded().then(function () {
 				var sObjectPath = this.getModel().createKey("Products", {
@@ -139,6 +156,17 @@ sap.ui.define([
 				oResourceBundle.getText("shareSendEmailObjectSubject", [sObjectId]));
 			oViewModel.setProperty("/shareSendEmailMessage",
 				oResourceBundle.getText("shareSendEmailObjectMessage", [sObjectName, sObjectId, location.href]));
+		}, 
+		
+		_getFullSoundName: function(soundName){
+			var soundType = this.getModel("soundSetting").getProperty("/selectedSoundType");
+			var soundFileType = ".wav";
+			if(soundType !== "SAP"){
+				soundFileType = ".mp3";
+			}
+			var fullSoundName = "soundEffects/" + soundType + "_" + soundName + soundFileType;
+			console.log(fullSoundName);
+			return fullSoundName;
 		}
 
 	});
