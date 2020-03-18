@@ -154,7 +154,6 @@ sap.ui.define([
 				soundFileType = ".mp3";
 			}
 			var fullSoundName = "soundEffects/" + soundType + "_" + soundName + soundFileType;
-			console.log(fullSoundName);
 			return fullSoundName;
 		},
 
